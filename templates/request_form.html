@@ -14,7 +14,7 @@
         body {
             font-family: 'Roboto', Arial, sans-serif;
             background: #f0ebf8;
-            padding: 20px;
+            padding: 15px;
             min-height: 100vh;
         }
 
@@ -23,7 +23,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 8px;
-            padding: 30px 24px;
+            padding: 25px 20px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12);
         }
 
@@ -233,20 +233,81 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             .container {
-                padding: 20px 16px;
+                padding: 15px 12px;
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 22px;
+                padding-bottom: 12px;
+                margin-bottom: 12px;
+            }
+
+            h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+            .form-section {
+                padding: 20px 15px;
+                margin-bottom: 15px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
             }
 
             .toc-grid {
-                gap: 6px;
+                gap: 8px;
             }
 
             .toc-item {
-                padding: 6px 12px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .table-of-contents {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            /* More breathing room for sections */
+            div[style*="border: 3px solid"] {
+                padding: 20px 15px !important;
+                margin: 20px 0 !important;
+            }
+
+            /* Better spacing for nested divs */
+            div[style*="background: #f8f9fa"] {
+                padding: 20px 15px !important;
+            }
+
+            /* Adjust input fields */
+            input, select, textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 14px;
+            }
+
+            /* Better button sizing */
+            .submit-btn {
+                font-size: 18px;
+                padding: 16px 30px;
+                width: 100%;
+            }
+
+            /* Scroll indicator positioning */
+            .scroll-indicator {
+                bottom: 20px;
+                padding: 10px 20px;
                 font-size: 13px;
             }
         }
