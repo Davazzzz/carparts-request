@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="{{ 'en' if language == 'en' else 'es' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if language == 'en' %}Junkyard Runner - Thank You!{% else %}Junkyard Runner - ¡Gracias!{% endif %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .thank-you-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            margin: 20px 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkmark {
+            font-size: 5em;
+            color: #28a745;
+            margin-bottom: 20px;
+            animation: scaleIn 0.5s ease-out 0.2s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .info-box strong {
+            color: #1565c0;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #1565c0;
+        }
+
+        .info-box li {
+            margin: 8px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .thank-you-card {
+                padding: 30px 20px;
+                margin: 10px 0;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .checkmark {
+                font-size: 3.5em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-card">
+        <div class="checkmark">✅</div>
+
+        <h1>
+            {% if language == 'en' %}
+                Request Received!
+            {% else %}
+                ¡Solicitud Recibida!
+            {% endif %}
+        </h1>
+
+        <p>
+            {% if language == 'en' %}
+                Thank you for your request. We'll review it and get back to you soon with a quote and photos.
+            {% else %}
+                Gracias por su solicitud. La revisaremos y nos pondremos en contacto con usted pronto con una cotización y fotos.
+            {% endif %}
+        </p>
+
+        {% if data %}
+        <div class="info-box" style="background: #f0f4ff; border-left: 4px solid #667eea; margin: 20px 0;">
+            <strong style="color: #667eea;">
+                {% if language == 'en' %}
+                    📋 Your Request Summary:
+                {% else %}
+                    📋 Resumen de tu Solicitud:
+                {% endif %}
+            </strong>
+            <ul style="color: #333; margin-top: 10px; line-height: 1.8;">
+                <li><strong>{% if language == 'en' %}Vehicle:{% else %}Vehículo:{% endif %}</strong> {{ data.vehicle_year }} {{ data.vehicle_make }} {{ data.vehicle_model }}</li>
+
+                <li style="margin-top: 10px;">
+                    <strong>{% if language == 'en' %}Parts Needed:{% else %}Piezas Necesarias:{% endif %}</strong>
+                    <div style="margin-top: 5px; margin-left: 20px;">
+                        {% if data.part_needed %}
+                            <div style="background: #ffebee; padding: 8px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid #f44336;">
+                                <strong style="color: #c62828;">Option 1:</strong> {{ data.part_needed }}
+                            </div>
+                        {% endif %}
+
+                        {% if data.junkyard_parts_list and data.junkyard_parts_list|length > 0 %}
+                            <div style="background: #fff3e0; padding: 8px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid #ff9800;">
+                                <strong style="color: #f57c00;">Option 2 (Junkyard Parts):</strong>
+                                <ul style="margin: 5px 0 0 20px; list-style-type: disc;">
+                                {% for part in data.junkyard_parts_list %}
+                                    <li>{{ part.name }} - ${{ "%.2f"|format(part.price) }} {% if part.qty > 1 %}(x{{ part.qty }}){% endif %}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </li>
+
+                {% if data.additional_notes %}
+                <li style="margin-top: 10px;">
+                    <strong>{% if language == 'en' %}Notes:{% else %}Notas:{% endif %}</strong>
+                    <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; margin-top: 5px; font-style: italic; color: #666;">
+                        {{ data.additional_notes }}
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="info-box">
+            <strong>
+                {% if language == 'en' %}
+                    📱 What happens next:
+                {% else %}
+                    📱 Qué sigue:
+                {% endif %}
+            </strong>
+            <ul>
+                <li>
+                    {% if language == 'en' %}
+                        We'll contact you within 24 hours
+                    {% else %}
+                        Le contactaremos dentro de 24 horas
+                    {% endif %}
+                </li>
+                <li>
+                    {% if language == 'en' %}
+                        We'll send photos of the part
+                    {% else %}
+                        Le enviaremos fotos de la pieza
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
+        <a href="/" class="btn">
+            {% if language == 'en' %}
+                ← Back to Home
+            {% else %}
+                ← Volver al Inicio
+            {% endif %}
+        </a>
+    </div>
+</body>
+</html>
