@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if language == 'en' %}Junkyard Runner Form{% else %}Formulario de Junkyard Runner{% endif %}</title>
+    <title>{% if language == 'en' %}Junkyard Runner - Request Form{% else %}Junkyard Runner - Formulario{% endif %}</title>
     <style>
         * {
             margin: 0;
@@ -12,82 +12,118 @@
         }
 
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background: #f0ebf8;
-            padding: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 770px;
+            max-width: 600px;
             margin: 0 auto;
             background: white;
-            border-radius: 8px;
-            padding: 25px 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
-        h1 {
-            color: #673AB7;
+        .header {
             text-align: center;
-            margin-bottom: 8px;
-            font-size: 32px;
-            font-weight: 400;
-            border-bottom: 10px solid #673AB7;
-            padding-bottom: 16px;
+            margin-bottom: 30px;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #5f6368;
-            margin-bottom: 24px;
-            font-size: 14px;
-            line-height: 20px;
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
         }
 
-        .form-section {
-            background: white;
-            border: 1px solid #dadce0;
+        .header p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .value-props {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
             border-radius: 8px;
-            padding: 24px;
+        }
+
+        .value-props h3 {
+            color: #667eea;
+            font-size: 16px;
             margin-bottom: 12px;
         }
 
+        .value-props ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .value-props li {
+            color: #555;
+            font-size: 14px;
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .value-props li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
         .section-title {
-            color: #202124;
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 16px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e0e0;
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #202124;
-            font-weight: 400;
+            color: #444;
             font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
         }
 
-        input, select, textarea {
+        label .required {
+            color: #e74c3c;
+        }
+
+        input, textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 12px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
             font-family: inherit;
-            transition: border-color 0.2s;
-            background: #fff;
+            transition: all 0.2s;
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus, textarea:focus {
             outline: none;
-            border-color: #673AB7;
-            border-width: 2px;
-            padding: 11px;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         textarea {
@@ -95,141 +131,278 @@
             min-height: 80px;
         }
 
-        .submit-btn {
-            background: #673AB7;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 20px;
-            font-weight: 700;
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            padding: 18px 36px;
-            margin-top: 12px;
-            transition: background 0.2s;
         }
 
-        .submit-btn:hover {
-            background: #5e35b1;
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
         }
 
-        .back-link {
-            text-align: left;
-            margin-top: 20px;
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .back-link a {
-            color: #673AB7;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .info-text {
+        .radio-option {
             background: #f8f9fa;
-            border-left: 4px solid #673AB7;
-            padding: 12px 16px;
-            margin-bottom: 16px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .radio-option.checked {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-text {
+            flex: 1;
+        }
+
+        .radio-text strong {
+            color: #333;
+            font-size: 15px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .radio-text small {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin-bottom: 15px;
             border-radius: 4px;
             font-size: 13px;
-            color: #5f6368;
-            line-height: 1.6;
-        }
-
-        .required-marker {
-            color: #d93025;
-        }
-
-        small {
-            color: #5f6368;
-            font-size: 12px;
-            display: block;
-            margin-top: 4px;
+            color: #856404;
         }
 
         .link-button {
             display: inline-block;
-            background: #673AB7;
+            background: #667eea;
             color: white;
-            padding: 10px 24px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: background 0.2s;
+            margin-top: 8px;
         }
 
         .link-button:hover {
-            background: #5e35b1;
+            background: #5568d3;
         }
 
-        /* Table of Contents */
-        .table-of-contents {
-            background: #673AB7;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        .file-input-wrapper {
+            position: relative;
         }
 
-        .toc-grid {
+        .file-input-label {
+            display: inline-block;
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .file-input-label:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .image-preview {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        .toc-item {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 14px;
+        .image-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
         }
 
-        .toc-item:hover {
-            background: rgba(255,255,255,0.3);
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
         }
 
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 999;
-            background: #673AB7;
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e74c3c;
             color: white;
-            padding: 12px 24px;
-            border-radius: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             font-size: 14px;
-            transition: opacity 0.3s;
+            font-weight: bold;
+            border: 2px solid white;
         }
 
-        .scroll-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
         }
 
-        .scroll-indicator:hover {
-            background: #5e35b1;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
-        h2, h3 {
-            font-weight: 700;
-            color: #202124;
-            margin-top: 24px;
-            margin-bottom: 16px;
+        .submit-btn:active {
+            transform: translateY(0);
         }
 
-        h2 {
+        .footer-note {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .footer-note p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-note .phone {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .details-toggle {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .details-toggle:hover {
+            background: #f0f0f0;
+        }
+
+        .details-toggle summary {
+            font-weight: 600;
+            color: #667eea;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .details-toggle summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .details-toggle summary:after {
+            content: '+';
             font-size: 20px;
+            font-weight: bold;
         }
 
-        h3 {
-            font-size: 16px;
+        .details-toggle[open] summary:after {
+            content: '−';
+        }
+
+        .details-content {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .details-content h4 {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .details-content ul {
+            margin-left: 20px;
+            color: #555;
+            font-size: 13px;
+            line-height: 1.8;
         }
 
         @media (max-width: 768px) {
@@ -238,598 +411,184 @@
             }
 
             .container {
-                padding: 15px 12px;
+                padding: 25px 20px;
             }
 
-            h1 {
-                font-size: 22px;
-                padding-bottom: 12px;
-                margin-bottom: 12px;
+            .header h1 {
+                font-size: 24px;
             }
 
-            h2 {
-                font-size: 18px;
-                margin-bottom: 15px;
-            }
-
-            .subtitle {
-                font-size: 13px;
-                margin-bottom: 20px;
-            }
-
-            .form-section {
-                padding: 20px 15px;
-                margin-bottom: 15px;
-            }
-
-            .form-group {
-                margin-bottom: 20px;
-            }
-
-            .toc-grid {
-                gap: 8px;
-            }
-
-            .toc-item {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .table-of-contents {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-
-            /* More breathing room for sections */
-            div[style*="border: 3px solid"] {
-                padding: 20px 15px !important;
-                margin: 20px 0 !important;
-            }
-
-            /* Better spacing for nested divs */
-            div[style*="background: #f8f9fa"] {
-                padding: 20px 15px !important;
-            }
-
-            /* Adjust input fields */
-            input, select, textarea {
+            input, textarea {
                 font-size: 16px; /* Prevents zoom on iOS */
-                padding: 14px;
-            }
-
-            /* Better button sizing */
-            .submit-btn {
-                font-size: 18px;
-                padding: 16px 30px;
-                width: 100%;
-            }
-
-            /* Scroll indicator positioning */
-            .scroll-indicator {
-                bottom: 20px;
-                padding: 10px 20px;
-                font-size: 13px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🏃 Junkyard Runner Form</h1>
-        <p class="subtitle">
-            {% if language == 'en' %}
-                No guarantee your part will be there - it's hit or miss, but I'll check. Just give me time.
-            {% else %}
-                No hay garantía de que tu pieza esté ahí - depende de disponibilidad, pero la buscaré. Solo dame tiempo.
-            {% endif %}
-        </p>
-
-        <!-- Table of Contents -->
-        <div class="table-of-contents" id="toc">
-            <div class="toc-grid">
-                <div class="toc-item" onclick="scrollToSection('how-it-works')">
-                    {% if language == 'en' %}📋 How It Works{% else %}📋 Cómo Funciona{% endif %}
-                </div>
-                <div class="toc-item" onclick="scrollToSection('form-start')">
-                    {% if language == 'en' %}✍️ Fill Form{% else %}✍️ Llenar Formulario{% endif %}
-                </div>
-                <div class="toc-item" onclick="scrollToSection('contact-info')">
-                    {% if language == 'en' %}📞 Text Instead{% else %}📞 Texto{% endif %}
-                </div>
-                <div class="toc-item" onclick="scrollToSection('pricing-section')">
-                    {% if language == 'en' %}💰 Pricing{% else %}💰 Precios{% endif %}
-                </div>
-                <div class="toc-item" onclick="scrollToSection('warranty-section')">
-                    {% if language == 'en' %}🛡️ Warranty{% else %}🛡️ Garantía{% endif %}
-                </div>
-                <div class="toc-item" onclick="scrollToSection('secure-part-section')">
-                    {% if language == 'en' %}🔒 Secure Part{% else %}🔒 Asegurar Pieza{% endif %}
-                </div>
-                <div class="toc-item" onclick="scrollToSection('submit-section')">
-                    {% if language == 'en' %}📤 Submit{% else %}📤 Enviar{% endif %}
-                </div>
-            </div>
+        <!-- Header -->
+        <div class="header">
+            <h1>🏃 {% if language == 'en' %}Junkyard Runner{% else %}Junkyard Runner{% endif %}</h1>
+            <p>{% if language == 'en' %}Submit your request below. I'll search and text you if I find it!{% else %}Envía tu solicitud abajo. ¡Buscaré y te enviaré mensaje si la encuentro!{% endif %}</p>
         </div>
 
-        <!-- Process Info -->
-        <div id="how-it-works" class="form-section">
-            <h2>📋 {% if language == 'en' %}HOW IT WORKS{% else %}CÓMO FUNCIONA{% endif %}</h2>
-            <p>
-                {% if language == 'en' %}
-                    Fill out the form below with as much information as possible. Make sure to select your preferred way to secure the part.
-                {% else %}
-                    Completa el formulario a continuación con la mayor información posible. Asegúrate de seleccionar tu forma preferida de asegurar la pieza.
-                {% endif %}
-            </p>
-            <p style="margin-top: 12px;"><strong>{% if language == 'en' %}Provide me:{% else %}Proporcióname:{% endif %}</strong></p>
-            <ul style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">
-                {% if language == 'en' %}
-                    <li>Year / Make / Model / Color</li>
-                    <li>Part needed</li>
-                    <li>If you know which junkyard has it and what year models are compatible, let me know — it gives me a better shot at finding your part</li>
-                    <li>Phone number</li>
-                {% else %}
-                    <li>Año / Marca / Modelo / Color</li>
-                    <li>Pieza necesaria</li>
-                    <li>Si sabes qué deshuesadero lo tiene y qué modelos de año son compatibles, házmelo saber — me da una mejor oportunidad de encontrar tu pieza</li>
-                    <li>Número de teléfono</li>
-                {% endif %}
+        <!-- Value Props -->
+        <div class="value-props">
+            <h3>{% if language == 'en' %}Why use Junkyard Runner?{% else %}¿Por qué usar Junkyard Runner?{% endif %}</h3>
+            <ul>
+                <li>{% if language == 'en' %}I do the searching - you save time{% else %}Yo hago la búsqueda - tú ahorras tiempo{% endif %}</li>
+                <li>{% if language == 'en' %}Get OEM parts at junkyard prices{% else %}Obtén piezas OEM a precios de deshuesadero{% endif %}</li>
+                <li>{% if language == 'en' %}See photos before you pay{% else %}Ve fotos antes de pagar{% endif %}</li>
             </ul>
-            <p style="margin-top: 12px;">
-                {% if language == 'en' %}
-                    I'll check the yard and send photos/videos + a price estimate.
-                {% else %}
-                    Revisaré el deshuesadero y enviaré fotos/videos + un estimado de precio.
-                {% endif %}
-            </p>
         </div>
 
         <form id="requestForm">
-            <!-- Customer Info -->
-            <div id="form-start" style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #667eea;">
-                <h2 style="color: #667eea; margin-bottom: 20px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}👤 CUSTOMER INFORMATION{% else %}👤 INFORMACIÓN DEL CLIENTE{% endif %}
-                </h2>
+            <!-- YOUR INFO -->
+            <div class="section">
+                <div class="section-title">{% if language == 'en' %}Your Info{% else %}Tu Información{% endif %}</div>
 
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
-                    <div class="form-group">
-                        <label>{% if language == 'en' %}Name from Facebook Messenger *{% else %}Nombre de Facebook Messenger *{% endif %}</label>
-                        <input type="text" id="customer_name" required>
-                    </div>
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Your Name{% else %}Tu Nombre{% endif %} <span class="required">*</span></label>
+                    <input type="text" id="customer_name" required placeholder="{% if language == 'en' %}John Doe{% else %}Juan Pérez{% endif %}">
+                </div>
 
-                    <div class="form-group">
-                        <label>📞 {% if language == 'en' %}Phone Number *{% else %}Número de Teléfono *{% endif %}</label>
-                        <input type="tel" id="customer_phone" placeholder="(323) 555-1234" required>
-                        <small>
-                            {% if language == 'en' %}
-                                Required for communication and updates
-                            {% else %}
-                                Requerido para comunicación y actualizaciones
-                            {% endif %}
-                        </small>
+                <div class="form-group">
+                    <label>📞 {% if language == 'en' %}Phone Number{% else %}Número de Teléfono{% endif %} <span class="required">*</span></label>
+                    <input type="tel" id="customer_phone" required placeholder="(323) 555-1234">
+                </div>
+            </div>
+
+            <!-- CAR INFO -->
+            <div class="section">
+                <div class="section-title">{% if language == 'en' %}Car Info{% else %}Información del Auto{% endif %}</div>
+
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Year{% else %}Año{% endif %} <span class="required">*</span></label>
+                    <input type="text" id="vehicle_year" required placeholder="2015">
+                </div>
+
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Make{% else %}Marca{% endif %} <span class="required">*</span></label>
+                    <input type="text" id="vehicle_make" required placeholder="{% if language == 'en' %}Toyota{% else %}Toyota{% endif %}">
+                </div>
+
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Model{% else %}Modelo{% endif %} <span class="required">*</span></label>
+                    <input type="text" id="vehicle_model" required placeholder="{% if language == 'en' %}Camry{% else %}Camry{% endif %}">
+                </div>
+
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Color (optional){% else %}Color (opcional){% endif %}</label>
+                    <input type="text" id="vehicle_color" placeholder="{% if language == 'en' %}Black, White, Silver...{% else %}Negro, Blanco, Plateado...{% endif %}">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="color_doesnt_matter" checked>
+                        <label for="color_doesnt_matter">{% if language == 'en' %}Color doesn't matter{% else %}El color no importa{% endif %}</label>
                     </div>
                 </div>
             </div>
 
-            <!-- Vehicle Info -->
-            <div style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #667eea;">
-                <h2 style="color: #667eea; margin-bottom: 20px; text-align: center; font-size: 1.8em;">
-                    🚗 {% if language == 'en' %}VEHICLE INFORMATION{% else %}INFORMACIÓN DEL VEHÍCULO{% endif %}
-                </h2>
+            <!-- PART INFO -->
+            <div class="section">
+                <div class="section-title">{% if language == 'en' %}Car Part/s Information{% else %}Información de Pieza/s{% endif %}</div>
 
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
-                    <div class="form-group">
-                        <label>{% if language == 'en' %}Year *{% else %}Año *{% endif %}</label>
-                        <input type="text" id="vehicle_year" required placeholder="2015">
-                    </div>
+                <div class="info-box">
+                    💡 {% if language == 'en' %}Not sure of exact prices? Visit{% else %}¿No estás seguro de los precios exactos? Visita{% endif %}
+                    <a href="https://pyp.com/prices" target="_blank" style="color: #667eea; font-weight: bold;">pyp.com/prices</a>
+                    {% if language == 'en' %}to see junkyard pricing{% else %}para ver precios del deshuesadero{% endif %}
+                </div>
 
-                    <div class="form-group">
-                        <label>{% if language == 'en' %}Make *{% else %}Marca *{% endif %}</label>
-                        <input type="text" id="vehicle_make" required placeholder="{% if language == 'en' %}Toyota, Honda, Ford...{% else %}Toyota, Honda, Ford...{% endif %}">
-                    </div>
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Part Name/s{% else %}Nombre/s de Pieza/s{% endif %} <span class="required">*</span></label>
+                    <input type="text" id="part_needed" required placeholder="{% if language == 'en' %}Front bumper, Headlight, Door...{% else %}Parachoques delantero, Faro, Puerta...{% endif %}">
+                    <small style="color: #666; font-size: 12px; display: block; margin-top: 6px;">
+                        {% if language == 'en' %}💡 List all parts you need, separated by commas{% else %}💡 Lista todas las piezas que necesitas, separadas por comas{% endif %}
+                    </small>
+                </div>
 
-                    <div class="form-group">
-                        <label>{% if language == 'en' %}Model *{% else %}Modelo *{% endif %}</label>
-                        <input type="text" id="vehicle_model" required placeholder="{% if language == 'en' %}Camry, Civic, F-150...{% else %}Camry, Civic, F-150...{% endif %}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>{% if language == 'en' %}Color{% else %}Color{% endif %}</label>
-                        <input type="text" id="vehicle_color" placeholder="{% if language == 'en' %}Black, White, Silver...{% else %}Negro, Blanco, Plateado...{% endif %}">
-                        <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px; cursor: pointer;">
-                            <input type="checkbox" id="color_doesnt_matter" style="width: 20px; height: 20px;">
-                            <span>{% if language == 'en' %}Color doesn't matter{% else %}El color no importa{% endif %}</span>
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Upload Photos (optional){% else %}Subir Fotos (opcional){% endif %}</label>
+                    <div class="file-input-wrapper">
+                        <label for="part_images" class="file-input-label">
+                            📸 {% if language == 'en' %}Click to upload photos (max 5){% else %}Haz clic para subir fotos (máx 5){% endif %}
                         </label>
+                        <input type="file" id="part_images" multiple accept="image/*" max="5">
                     </div>
+                    <div id="image-preview" class="image-preview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>{% if language == 'en' %}Anything else I should know? (optional){% else %}¿Algo más que deba saber? (opcional){% endif %}</label>
+                    <textarea id="additional_notes" placeholder="{% if language == 'en' %}e.g., compatible years, specific location at yard, etc.{% else %}ej., años compatibles, ubicación específica en el deshuesadero, etc.{% endif %}"></textarea>
                 </div>
             </div>
 
-            <!-- Part Info -->
-            <div style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #667eea;">
-                <h2 style="color: #667eea; margin-bottom: 10px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}🔧 INSERT CAR PART INFORMATION{% else %}🔧 INSERTAR INFORMACIÓN DE PIEZA{% endif %}
-                </h2>
-                <p style="text-align: center; color: #666; font-weight: 600; margin-bottom: 20px; font-size: 1.05em;">
-                    {% if language == 'en' %}⚠️ Choose one of the 2 options below{% else %}⚠️ Elige una de las 2 opciones abajo{% endif %}
-                </p>
+            <!-- OPTIONS -->
+            <div class="section">
+                <div class="section-title">{% if language == 'en' %}Options{% else %}Opciones{% endif %}</div>
 
-                <!-- OPTION 1: Simple Part Name Input -->
-                <div style="margin-bottom: 20px;">
-                    <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 5px solid #667eea;">
-                        <h3 style="color: #667eea; margin-bottom: 15px; font-size: 1.3em;">
-                            {% if language == 'en' %}OPTION 1 – Enter Part Name/s{% else %}OPCIÓN 1 – Ingresa Nombre/s de Pieza/s{% endif %}
-                        </h3>
-
-                        <!-- Part/s Name Input Box -->
-                        <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #667eea;">
-                            <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 0.95em;">
-                                {% if language == 'en' %}Part Name{% else %}Nombre de la Pieza{% endif %}
+                <div class="form-group">
+                    <label>{% if language == 'en' %}How should I handle this?{% else %}¿Cómo debo manejar esto?{% endif %} <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option" onclick="selectRadio('secure_text')">
+                            <label class="radio-label">
+                                <input type="radio" name="secure_method" id="secure_text" value="live_confirmation" required checked>
+                                <div class="radio-text">
+                                    <strong>{% if language == 'en' %}Text me when you find it{% else %}Envíame mensaje cuando la encuentres{% endif %}</strong>
+                                    <small>{% if language == 'en' %}I'll decide then (must respond in 10-15 min){% else %}Decidiré entonces (debo responder en 10-15 min){% endif %}</small>
+                                </div>
                             </label>
-                            <input type="text" id="part_needed" placeholder="{% if language == 'en' %}Front bumper, Headlight, Door...{% else %}Parachoques delantero, Faro, Puerta...{% endif %}"
-                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
-                            <small style="color: #666; display: block; margin-top: 8px;">
-                                {% if language == 'en' %}
-                                    💡 Enter your part name here. <strong>Not required if you use Option 2.</strong>
-                                {% else %}
-                                    💡 Ingresa el nombre de tu pieza aquí. <strong>No requerido si usas Opción 2.</strong>
-                                {% endif %}
-                            </small>
                         </div>
-                    </div>
-                </div>
-
-                <!-- OPTION 2 -->
-                <div>
-                    <div style="background: #fff3e0; padding: 20px; border-radius: 8px; border-left: 5px solid #ff9800;">
-                        <h3 style="color: #f57c00; margin-bottom: 10px; font-size: 1.3em;">
-                            {% if language == 'en' %}OPTION 2 – Search Official Junkyard Prices{% else %}OPCIÓN 2 – Buscar Precios Oficiales del Desarmadero{% endif %}
-                        </h3>
-                        <p style="font-size: 0.95em; color: #666; margin-bottom: 15px; font-style: italic;">
-                            {% if language == 'en' %}
-                                💡 All prices below come from pyp.com/prices which is the junkyard official price
-                            {% else %}
-                                💡 Todos los precios abajo vienen de pyp.com/prices que es el precio oficial del desarmadero
-                            {% endif %}
-                        </p>
-
-                        <!-- Junkyard Part Search Box -->
-                        <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #ff9800;">
-                            <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 0.95em;">
-                                {% if language == 'en' %}Junkyard Part Search{% else %}Búsqueda de Piezas del Desarmadero{% endif %}
+                        <div class="radio-option" onclick="selectRadio('secure_warranty')">
+                            <label class="radio-label">
+                                <input type="radio" name="secure_method" id="secure_warranty" value="warranty">
+                                <div class="radio-text">
+                                    <strong>{% if language == 'en' %}Buy with warranty (recommended){% else %}Comprar con garantía (recomendado){% endif %}</strong>
+                                    <small>{% if language == 'en' %}+30%, respond when ready, 90-day protection{% else %}+30%, responde cuando quieras, protección de 90 días{% endif %}</small>
+                                </div>
                             </label>
-
-                            {% if language == 'es' %}
-                            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
-                                <p style="color: #856404; font-size: 0.9em; margin: 0; font-weight: 600;">
-                                    ⚠️ <strong>Importante:</strong> Esta búsqueda funciona en <u>inglés solamente</u>. Use palabras en inglés para buscar piezas (ejemplo: "bumper" no "parachoques", "headlight" no "faro").
-                                </p>
-                            </div>
-                            {% else %}
-                            <div style="background: #e3f2fd; border-left: 4px solid #2196f3; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
-                                <p style="color: #1565c0; font-size: 0.9em; margin: 0; font-weight: 600;">
-                                    💡 Search uses English part names from the official junkyard database
-                                </p>
-                            </div>
-                            {% endif %}
-
-                            <input type="text" id="junkyard-search" placeholder="{% if language == 'en' %}Type to search for exact or similar parts...{% else %}Escribe para buscar piezas (en inglés)...{% endif %}"
-                                   oninput="searchJunkyardParts(this.value)"
-                                   style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
-                            <small style="color: #666; display: block; margin-top: 8px;">
-                                {% if language == 'en' %}
-                                    💡 Example: "bumper", "headlight", "door", "mirror"
-                                {% else %}
-                                    💡 Ejemplo: "bumper", "headlight", "door", "mirror"
-                                {% endif %}
-                            </small>
-
-                            <!-- Search results dropdown -->
-                            <div id="junkyard-suggestions" style="max-height: 300px; overflow-y: auto; border: 2px solid #667eea; border-radius: 8px; margin-top: 10px; display: none; background: white;"></div>
-                        </div>
-
-                        <!-- Selected parts display -->
-                        <div id="selected-junkyard-parts" style="margin-top: 15px;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NEW: Upload Part Pictures -->
-            <div class="form-group" style="background: #e3f2fd; padding: 20px; border-radius: 12px; border-left: 5px solid #2196f3;">
-                <label style="font-weight: bold; font-size: 1.1em; color: #1565c0; margin-bottom: 10px; display: block;">
-                    📸 {% if language == 'en' %}Upload Part Pictures (Optional){% else %}Subir Fotos de la Pieza (Opcional){% endif %}
-                </label>
-                <input type="file" id="part_images" multiple accept="image/*"
-                       style="width: 100%; padding: 12px; border: 2px solid #2196f3; border-radius: 8px; background: white; cursor: pointer;">
-                <small style="color: #1565c0; display: block; margin-top: 8px; font-weight: 600;">
-                    {% if language == 'en' %}
-                        💡 Upload pictures of the parts you need so I can identify them better! You can select up to 5 images.
-                    {% else %}
-                        💡 ¡Sube fotos de las piezas que necesitas para que pueda identificarlas mejor! Puedes seleccionar hasta 5 imágenes.
-                    {% endif %}
-                </small>
-                <div id="image-count" style="margin-top: 8px; font-weight: bold; color: #1565c0;"></div>
-                <div id="image-preview" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;"></div>
-            </div>
-
-            <!-- Optional Notes Section -->
-            <div style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #667eea;">
-                <h2 style="color: #667eea; margin-bottom: 20px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}📝 NOTES (OPTIONAL){% else %}📝 NOTAS (OPCIONAL){% endif %}
-                </h2>
-
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 8px;">
-                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #202124;">
-                        {% if language == 'en' %}
-                            Helps me find your part faster!
-                        {% else %}
-                            ¡Me ayuda a encontrar su pieza más rápido!
-                        {% endif %}
-                    </label>
-                    <textarea id="additional_notes" rows="6"
-                              style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: Arial, sans-serif;"
-                              placeholder="{% if language == 'en' %}• Other car compatibilities (e.g., also fits 2010-2015 Toyota Corolla)&#10;• Where your car is located at Pick Your Parts (e.g., Sun Valley, Row 12)&#10;• Any other details that could help...{% else %}• Otras compatibilidades de autos (ej., también sirve para Toyota Corolla 2010-2015)&#10;• Dónde está su auto en Pick Your Parts (ej., Sun Valley, Fila 12)&#10;• Cualquier otro detalle que pueda ayudar...{% endif %}"></textarea>
-
-                    <div style="margin-top: 15px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
-                        <p style="color: #856404; font-size: 0.95em; margin: 0;">
-                            {% if language == 'en' %}
-                                💡 <strong>Tip:</strong> If you know which junkyard has it, check <a href="https://pyp.com" target="_blank" style="color: #667eea; font-weight: bold;">pyp.com</a> and let me know the location and row!
-                            {% else %}
-                                💡 <strong>Consejo:</strong> Si sabes qué desarmadero lo tiene, revisa <a href="https://pyp.com" target="_blank" style="color: #667eea; font-weight: bold;">pyp.com</a> y déjame saber la ubicación y fila!
-                            {% endif %}
-                        </p>
-                        <p style="color: #856404; font-size: 0.95em; margin: 10px 0 0 0;">
-                            {% if language == 'en' %}
-                                📍 <strong>Locations I visit:</strong> Santa Fe Springs, Anaheim, Sun Valley, Monrovia, and Wilmington
-                            {% else %}
-                                📍 <strong>Ubicaciones que visito:</strong> Santa Fe Springs, Anaheim, Sun Valley, Monrovia, y Wilmington
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Info Banner -->
-            <div id="contact-info" class="form-section" style="text-align: center;">
-                <h3>📞 {% if language == 'en' %}Prefer to text instead?{% else %}¿Prefieres enviar mensaje de texto?{% endif %}</h3>
-                <p style="margin-top: 12px;">
-                    {% if language == 'en' %}Text me directly! Expect a slower response time.{% else %}¡Envíame mensaje directo! Espera un tiempo de respuesta más lento.{% endif %}
-                </p>
-                <a href="sms:3235989389" class="link-button" style="margin-top: 16px; display: inline-block;">
-                    📱 (323) 598-9389
-                </a>
-                <p style="font-size: 12px; color: #5f6368; margin-top: 12px;">
-                    {% if language == 'en' %}(Phone number required for direct texts){% else %}(Número de teléfono requerido para mensajes directos){% endif %}
-                </p>
-            </div>
-
-            <!-- PRICING FORMULA -->
-            <div id="pricing-section" style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #667eea;">
-                <h2 style="color: #667eea; margin-bottom: 20px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}💰 PRICING (FORMULA){% else %}💰 PRECIOS (FÓRMULA){% endif %}
-                </h2>
-
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; font-family: Arial; font-size: 1.05em; margin-bottom: 20px;">
-                    <p style="font-weight: bold; font-size: 1.2em; margin-bottom: 15px; text-align: center; color: #667eea;">
-                        {% if language == 'en' %}Total = Part Price + $3 Yard Entry + Labor + Travel + Delivery (if needed) + Warranty (optional){% else %}Total = Precio de la Pieza + $3 Entrada al Desarmadero + Mano de Obra + Viaje + Entrega (si es necesario) + Garantía (opcional){% endif %}
-                    </p>
-
-                    <ul style="margin-left: 20px; line-height: 2;">
-                        {% if language == 'en' %}
-                            <li><strong>Part price from junkyard</strong> (receipt shown)</li>
-                            <li><strong>Labor:</strong> depends on size & difficulty <em>(can give more details if you text me!)</em></li>
-                            <li><strong>Travel to yard:</strong> $15 flat</li>
-                            <li><strong>Delivery (optional):</strong> $2 per mile from junkyard</li>
-                            <li><strong>Warranty (optional):</strong> +30% of part price</li>
-                            <li><strong>+$3 yard entry</strong></li>
-                        {% else %}
-                            <li><strong>Precio de la pieza del desarmadero</strong> (se muestra recibo)</li>
-                            <li><strong>Mano de obra:</strong> depende del tamaño y dificultad <em>(¡puedo dar más detalles si me envías un mensaje de texto!)</em></li>
-                            <li><strong>Viaje al desarmadero:</strong> $15 fijo</li>
-                            <li><strong>Entrega (opcional):</strong> $2 por milla desde el desarmadero</li>
-                            <li><strong>Garantía (opcional):</strong> +30% del precio de la pieza</li>
-                            <li><strong>+$3 entrada al desarmadero</strong></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-
-            <!-- WARRANTY OPTION -->
-            <div id="warranty-section" style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #e91e63;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
-                    <input type="checkbox" id="warranty_checkbox" style="width: 30px; height: 30px; cursor: pointer;">
-                    <h2 style="color: #e91e63; margin: 0; font-size: 1.8em;">
-                        {% if language == 'en' %}🛡️ WARRANTY (RECOMMENDED){% else %}🛡️ GARANTÍA (RECOMENDADO){% endif %}
-                    </h2>
-                </div>
-
-                <div style="background: #fce4ec; padding: 25px; border-radius: 8px;">
-                    <p style="font-size: 1.2em; font-weight: bold; color: #c2185b; margin-bottom: 20px; text-align: center;">
-                        {% if language == 'en' %}
-                            +30% of part price only • 90 days from purchase
-                        {% else %}
-                            +30% del precio de la pieza solamente • 90 días desde la compra
-                        {% endif %}
-                    </p>
-
-                    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-                        <ul style="margin-left: 20px; line-height: 2; color: #555; font-size: 1.05em;">
-                            {% if language == 'en' %}
-                                <li>I buy it with warranty</li>
-                                <li>I still send you pictures</li>
-                                <li>You respond whenever, but I need confirmation (15-20 mins)</li>
-                                <li>Ghost/decline? I return it</li>
-                                <li>Valid for 90 days from day of purchase</li>
-                            {% else %}
-                                <li>La compro con garantía</li>
-                                <li>Todavía te envío fotos</li>
-                                <li>Respondes cuando quieras, pero necesito confirmación (15-20 mins)</li>
-                                <li>¿Desapareces/declinas? La devuelvo</li>
-                                <li>Válido por 90 días desde el día de compra</li>
-                            {% endif %}
-                        </ul>
-                    </div>
-
-                    <p style="text-align: center; color: #666; font-size: 0.95em; font-style: italic;">
-                        {% if language == 'en' %}
-                            ⚠️ Selecting this automatically chooses Option 1 for "Ways to Secure Your Part"
-                        {% else %}
-                            ⚠️ Seleccionar esto automáticamente elige Opción 1 para "Formas de Asegurar Su Pieza"
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-
-            <!-- WAYS TO SECURE YOUR PART -->
-            <div id="secure-part-section" style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #667eea;">
-                <h2 style="color: #667eea; margin-bottom: 20px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}🔒 WAYS TO SECURE YOUR PART *{% else %}🔒 FORMAS DE ASEGURAR SU PIEZA *{% endif %}
-                </h2>
-                <p style="text-align: center; color: #d32f2f; font-weight: bold; margin-bottom: 20px; font-size: 1.05em;">
-                    {% if language == 'en' %}⚠️ You must select one option{% else %}⚠️ Debes seleccionar una opción{% endif %}
-                </p>
-
-                <!-- OPTION 1 - WARRANTY PURCHASE (RECOMMENDED) -->
-                <label style="display: block; cursor: pointer; margin-bottom: 20px;">
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 5px solid #667eea;">
-                        <div style="display: flex; align-items: start; gap: 15px;">
-                            <input type="radio" name="secure_method" id="secure_warranty" value="warranty" required style="width: 25px; height: 25px; margin-top: 5px; cursor: pointer;">
-                            <div style="flex: 1;">
-                                <h3 style="color: #202124; margin-bottom: 10px; font-size: 1.1em; font-weight: bold;">
-                                    {% if language == 'en' %}OPTION 1 – WARRANTY PURCHASE (recommended!){% else %}OPCIÓN 1 – COMPRA CON GARANTÍA (¡recomendado!){% endif %}
-                                </h3>
-                                <ul style="margin-left: 20px; line-height: 1.8;">
-                                    {% if language == 'en' %}
-                                        <li>I buy it with warranty</li>
-                                        <li>I still send you pictures</li>
-                                        <li>You respond whenever, but I need confirmation (15-20 mins)</li>
-                                        <li>Ghost/decline? I return it</li>
-                                        <li><strong>+30% of part price</strong></li>
-                                        <li><em style="color: #666;">Auto-selected if you choose warranty above</em></li>
-                                    {% else %}
-                                        <li>Lo compro con garantía</li>
-                                        <li>Todavía te envío fotos</li>
-                                        <li>Respondes cuando quieras, pero necesito confirmación (15-20 mins)</li>
-                                        <li>¿Desapareces/declinas? Lo devuelvo</li>
-                                        <li><strong>+30% del precio de la pieza</strong></li>
-                                        <li><em style="color: #666;">Auto-seleccionado si eliges garantía arriba</em></li>
-                                    {% endif %}
-                                </ul>
-                            </div>
                         </div>
                     </div>
-                </label>
+                </div>
 
-                <!-- OPTION 2 - LIVE CONFIRMATION (REQUIRES FAST RESPONSE) -->
-                <label style="display: block; cursor: pointer;">
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 5px solid #667eea;">
-                        <div style="display: flex; align-items: start; gap: 15px;">
-                            <input type="radio" name="secure_method" id="secure_live" value="live_confirmation" required style="width: 25px; height: 25px; margin-top: 5px; cursor: pointer;">
-                            <div style="flex: 1;">
-                                <h3 style="color: #202124; margin-bottom: 10px; font-size: 1.1em; font-weight: bold;">
-                                    {% if language == 'en' %}OPTION 2 – LIVE CONFIRMATION (fast response needed){% else %}OPCIÓN 2 – CONFIRMACIÓN EN VIVO (respuesta rápida necesaria){% endif %}
-                                </h3>
-                                <ul style="margin-left: 20px; line-height: 1.8;">
-                                    {% if language == 'en' %}
-                                        <li>I send photos/videos from yard</li>
-                                        <li>You confirm + deposit</li>
-                                        <li>I pull it immediately</li>
-                                    {% else %}
-                                        <li>Envío fotos/videos del desarmadero</li>
-                                        <li>Confirmas + depósito</li>
-                                        <li>Lo saco inmediatamente</li>
-                                    {% endif %}
-                                </ul>
-                                <p style="margin-top: 10px; font-weight: bold; color: #d84315;">
-                                    ⏱ {% if language == 'en' %}10-15 min to respond or I leave it{% else %}10-15 min para responder o lo dejo{% endif %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </label>
-            </div>
-
-            <!-- DEPOSITS -->
-            <div style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #2196f3;">
-                <h2 style="color: #2196f3; margin-bottom: 15px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}💵 DEPOSITS{% else %}💵 DEPÓSITOS{% endif %}
-                </h2>
-                <p style="text-align: center; color: #666; font-size: 0.95em; margin-bottom: 20px;">
-                    {% if language == 'en' %}(Applied to total / refunded if part NOT available){% else %}(Aplicado al total / reembolsado si la pieza NO está disponible){% endif %}
-                </p>
-
-                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px;">
-                        <span style="font-weight: bold; font-size: 1.1em;">
-                            {% if language == 'en' %}Small / Interior Parts:{% else %}Piezas Pequeñas / Interiores:{% endif %}
-                        </span>
-                        <span style="font-weight: bold; font-size: 1.3em; color: #2196f3;">$20</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px;">
-                        <span style="font-weight: bold; font-size: 1.1em;">
-                            {% if language == 'en' %}Large / Heavy / Exterior:{% else %}Grandes / Pesadas / Exteriores:{% endif %}
-                        </span>
-                        <span style="font-weight: bold; font-size: 1.3em; color: #2196f3;">$50</span>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="need_delivery">
+                        <label for="need_delivery">{% if language == 'en' %}I need delivery (I'll quote you){% else %}Necesito entrega (te cotizaré){% endif %}</label>
                     </div>
                 </div>
             </div>
 
-            <!-- AVAILABILITY -->
-            <div style="background: white; padding: 30px; border-radius: 12px; margin: 30px 0; border: 3px solid #9c27b0;">
-                <h2 style="color: #9c27b0; margin-bottom: 15px; text-align: center; font-size: 1.8em;">
-                    {% if language == 'en' %}⏰ AVAILABILITY / RESPONSE TIMES{% else %}⏰ DISPONIBILIDAD / TIEMPOS DE RESPUESTA{% endif %}
-                </h2>
-
-                <div style="background: #f3e5f5; padding: 20px; border-radius: 8px;">
-                    <p style="margin-bottom: 15px; font-weight: bold; text-align: center; color: #9c27b0; font-size: 1.1em;">
-                        {% if language == 'en' %}
-                            I hit one yard per week
-                        {% else %}
-                            Visito un desarmadero por semana
-                        {% endif %}
+            <!-- Pricing & Details (Collapsible) -->
+            <details class="details-toggle">
+                <summary>{% if language == 'en' %}📋 How pricing works{% else %}📋 Cómo funcionan los precios{% endif %}</summary>
+                <div class="details-content">
+                    <h4>{% if language == 'en' %}Total Cost Formula:{% else %}Fórmula de Costo Total:{% endif %}</h4>
+                    <p style="font-weight: 600; color: #667eea; margin-bottom: 10px;">
+                        {% if language == 'en' %}Part Price + Labor + $15 Travel + $3 Yard Entry + Delivery (if needed) + Warranty (if selected){% else %}Precio de Pieza + Mano de Obra + $15 Viaje + $3 Entrada + Entrega (si necesario) + Garantía (si seleccionada){% endif %}
                     </p>
-
-                    <ul style="margin-left: 20px; line-height: 2; font-size: 1.05em;">
-                        {% if language == 'en' %}
-                            <li><strong>In the yard:</strong> 9:00 AM – ~1:00 PM (limited replies)</li>
-                            <li><strong>Responding after:</strong> 4:00 PM</li>
-                            <li><strong>No replies after:</strong> 9:00 PM</li>
-                        {% else %}
-                            <li><strong>En el desarmadero:</strong> 9:00 AM – ~1:00 PM (respuestas limitadas)</li>
-                            <li><strong>Respondiendo después de:</strong> 4:00 PM</li>
-                            <li><strong>Sin respuestas después de:</strong> 9:00 PM</li>
-                        {% endif %}
+                    <ul>
+                        <li>{% if language == 'en' %}<strong>Labor:</strong> Depends on difficulty (I'll quote you){% else %}<strong>Mano de obra:</strong> Depende de dificultad (te cotizaré){% endif %}</li>
+                        <li>{% if language == 'en' %}<strong>Delivery:</strong> $2 per mile from junkyard{% else %}<strong>Entrega:</strong> $2 por milla desde el deshuesadero{% endif %}</li>
+                        <li>{% if language == 'en' %}<strong>Warranty:</strong> +30% of part price, 90 days{% else %}<strong>Garantía:</strong> +30% del precio de pieza, 90 días{% endif %}</li>
                     </ul>
 
-                    <p style="margin-top: 20px; font-weight: bold; text-align: center; color: #7b1fa2; font-size: 1.1em;">
-                        {% if language == 'en' %}
-                            Photos/videos always sent before purchase.<br>
-                            If I don't reply, I'm inside the yard.
-                        {% else %}
-                            Fotos/videos siempre enviados antes de la compra.<br>
-                            Si no respondo, estoy dentro del desarmadero.
-                        {% endif %}
-                    </p>
+                    <h4 style="margin-top: 15px;">{% if language == 'en' %}Deposits (if needed):{% else %}Depósitos (si necesario):{% endif %}</h4>
+                    <ul>
+                        <li>{% if language == 'en' %}Small/interior parts: $20{% else %}Piezas pequeñas/interiores: $20{% endif %}</li>
+                        <li>{% if language == 'en' %}Large/exterior parts: $50{% else %}Piezas grandes/exteriores: $50{% endif %}</li>
+                    </ul>
                 </div>
-            </div>
+            </details>
 
-            <!-- Confirmation Message -->
-            <div id="submit-section" style="background: #667eea; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 30px; border: 3px solid #5568d3;">
-                <p style="font-size: 0.9em; font-weight: 600; margin-bottom: 10px;">
-                    {% if language == 'en' %}
-                        📬 Once submitted, I'll message you from:
-                    {% else %}
-                        📬 Una vez enviado, te enviaré mensaje desde:
-                    {% endif %}
-                </p>
-                <p style="font-size: 1.5em; font-weight: 800;">
-                    📱 (323) 598-9389
-                </p>
-            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">
+                {% if language == 'en' %}📤 Submit Request{% else %}📤 Enviar Solicitud{% endif %}
+            </button>
 
-            <div style="text-align: center;">
-                <button type="submit" class="submit-btn" style="width: auto; display: inline-block;">
-                    {% if language == 'en' %}📤 Submit Request{% else %}📤 Enviar Solicitud{% endif %}
-                </button>
+            <!-- Footer Note -->
+            <div class="footer-note">
+                <p>{% if language == 'en' %}I'll contact you at:{% else %}Te contactaré al:{% endif %}</p>
+                <p class="phone">📱 (323) 598-9389</p>
             </div>
         </form>
 
@@ -838,323 +597,75 @@
         </div>
     </div>
 
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator" id="scrollIndicator" onclick="scrollDown()">
-        {% if language == 'en' %}
-            ⬇️ Scroll to continue
-        {% else %}
-            ⬇️ Desplázate para continuar
-        {% endif %}
-    </div>
-
     <script>
         const language = "{{ language }}";
-
-        // Selected junkyard parts storage
-        let selectedJunkyardParts = [];
-
-        // Junkyard part search functionality
-        let searchTimeout;
-        async function searchJunkyardParts(query) {
-            clearTimeout(searchTimeout);
-
-            if (query.length < 2) {
-                document.getElementById('junkyard-suggestions').style.display = 'none';
-                return;
-            }
-
-            searchTimeout = setTimeout(async () => {
-                try {
-                    const response = await fetch(`/search_junkyard_parts?q=${encodeURIComponent(query)}`);
-                    const data = await response.json();
-
-                    if (data.success && data.parts.length > 0) {
-                        displayJunkyardSuggestions(data.parts);
-                    } else {
-                        document.getElementById('junkyard-suggestions').innerHTML =
-                            `<div style="padding: 15px; text-align: center; color: #999;">
-                                ${language === 'en' ? 'No parts found' : 'No se encontraron piezas'}
-                            </div>`;
-                        document.getElementById('junkyard-suggestions').style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error('Error searching parts:', error);
-                }
-            }, 300);
-        }
-
-        function displayJunkyardSuggestions(parts) {
-            const suggestionsDiv = document.getElementById('junkyard-suggestions');
-            suggestionsDiv.innerHTML = '';
-
-            parts.forEach(part => {
-                const partDiv = document.createElement('div');
-                partDiv.style.cssText = 'padding: 12px; border-bottom: 1px solid #e0e0e0; cursor: pointer; transition: background 0.2s;';
-                partDiv.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 600;">${part.name}</span>
-                        <span style="color: #28a745; font-weight: bold;">$${part.price.toFixed(2)}</span>
-                    </div>
-                `;
-
-                partDiv.onmouseover = () => partDiv.style.background = '#f0f9ff';
-                partDiv.onmouseout = () => partDiv.style.background = 'white';
-                partDiv.onclick = () => addJunkyardPart(part);
-
-                suggestionsDiv.appendChild(partDiv);
-            });
-
-            suggestionsDiv.style.display = 'block';
-        }
-
-        function addJunkyardPart(part) {
-            // Check if part already selected
-            if (selectedJunkyardParts.find(p => p.name === part.name)) {
-                return;
-            }
-
-            selectedJunkyardParts.push({ ...part, qty: 1 });
-            updateSelectedPartsDisplay();
-
-            // Clear search
-            document.getElementById('junkyard-search').value = '';
-            document.getElementById('junkyard-suggestions').style.display = 'none';
-        }
-
-        function removeJunkyardPart(partName) {
-            selectedJunkyardParts = selectedJunkyardParts.filter(p => p.name !== partName);
-            updateSelectedPartsDisplay();
-        }
-
-        function updatePartQuantity(partName, qty) {
-            const part = selectedJunkyardParts.find(p => p.name === partName);
-            if (part) {
-                part.qty = parseInt(qty) || 1;
-                updateSelectedPartsDisplay();
-            }
-        }
-
-        function updateSelectedPartsDisplay() {
-            const container = document.getElementById('selected-junkyard-parts');
-
-            if (selectedJunkyardParts.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let subtotal = selectedJunkyardParts.reduce((sum, part) => sum + (part.price * part.qty), 0);
-            let tax = subtotal * 0.0975; // 9.75% tax
-            let totalWithTax = subtotal + tax;
-
-            container.innerHTML = `
-                <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border: 2px solid #28a745;">
-                    <h4 style="color: #28a745; margin-bottom: 10px; font-size: 1.1em;">
-                        ${language === 'en' ? '✅ Selected Parts' : '✅ Piezas Seleccionadas'}
-                    </h4>
-                    ${selectedJunkyardParts.map(part => `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 6px; margin-bottom: 8px;">
-                            <div style="flex: 1;">
-                                <strong>${part.name}</strong><br>
-                                <small style="color: #666;">$${part.price.toFixed(2)} ${language === 'en' ? 'each' : 'c/u'}</small>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <div>
-                                    <label style="font-size: 0.85em; color: #666; margin-bottom: 2px; display: block;">
-                                        ${language === 'en' ? 'Qty' : 'Cant'}:
-                                    </label>
-                                    <input type="number" min="1" value="${part.qty}"
-                                           onchange="updatePartQuantity('${part.name}', this.value)"
-                                           style="width: 60px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
-                                </div>
-                                <div style="text-align: right;">
-                                    <div style="font-weight: bold; color: #28a745;">$${(part.price * part.qty).toFixed(2)}</div>
-                                    <button onclick="removeJunkyardPart('${part.name}')"
-                                            style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85em; margin-top: 5px;">
-                                        ${language === 'en' ? 'Remove' : 'Eliminar'}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                    <div style="border-top: 2px solid #28a745; margin-top: 10px; padding-top: 10px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="color: #666;">${language === 'en' ? 'Subtotal:' : 'Subtotal:'}</span>
-                            <span style="font-weight: bold;">$${subtotal.toFixed(2)}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="color: #666;">${language === 'en' ? 'Tax (9.75%):' : 'Impuesto (9.75%):'}</span>
-                            <span style="font-weight: bold;">$${tax.toFixed(2)}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; border-top: 2px solid #28a745; padding-top: 8px;">
-                            <strong style="font-size: 1.2em; color: #28a745;">
-                                ${language === 'en' ? 'Total (w/ tax):' : 'Total (c/ impuesto):'}
-                            </strong>
-                            <strong style="font-size: 1.2em; color: #28a745;">
-                                $${totalWithTax.toFixed(2)}
-                            </strong>
-                        </div>
-                        <p style="font-size: 0.8em; color: #666; margin-top: 10px; font-style: italic; text-align: center;">
-                            ${language === 'en' ? '💡 Prices from pyp.com/prices' : '💡 Precios de pyp.com/prices'}
-                        </p>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Track selected files separately
         let selectedFiles = [];
 
-        // Image preview functionality
+        // Radio button selection with visual feedback
+        function selectRadio(id) {
+            document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('checked'));
+            const radio = document.getElementById(id);
+            radio.checked = true;
+            radio.closest('.radio-option').classList.add('checked');
+        }
+
+        // Initialize checked radio
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkedRadio = document.querySelector('input[name="secure_method"]:checked');
+            if (checkedRadio) {
+                checkedRadio.closest('.radio-option').classList.add('checked');
+            }
+        });
+
+        // Image upload handling
         document.getElementById('part_images').addEventListener('change', function(e) {
-            const previewContainer = document.getElementById('image-preview');
             const newFiles = Array.from(e.target.files);
 
-            // Add new files to selected files
             newFiles.forEach(file => {
                 if (selectedFiles.length < 5) {
                     selectedFiles.push(file);
                 }
             });
 
-            // Show warning if trying to add more than 5
-            if (newFiles.length > 0 && selectedFiles.length >= 5 && newFiles.length + selectedFiles.length - 5 > 0) {
+            if (selectedFiles.length >= 5 && newFiles.length > 0) {
                 alert(language === 'en'
-                    ? '⚠️ Maximum 5 images allowed. Only showing first 5 images.'
-                    : '⚠️ Máximo 5 imágenes permitidas. Solo se muestran las primeras 5 imágenes.');
+                    ? '⚠️ Maximum 5 images allowed.'
+                    : '⚠️ Máximo 5 imágenes permitidas.');
             }
 
-            // Limit to 5 images
             selectedFiles = selectedFiles.slice(0, 5);
-
-            // Update counter
-            updateImageCounter();
-
-            // Display preview
-            previewContainer.innerHTML = '';
-            selectedFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.style.cssText = 'position: relative;';
-                    imgDiv.innerHTML = `
-                        <img src="${e.target.result}"
-                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #2196f3;">
-                        <div style="position: absolute; top: -5px; right: -5px; background: #f44336; color: white; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold;"
-                             onclick="removeImage(${index})">×</div>
-                    `;
-                    previewContainer.appendChild(imgDiv);
-                };
-                reader.readAsDataURL(file);
-            });
-
-            // Clear the file input for next selection
+            updateImagePreview();
             e.target.value = '';
         });
 
-        function updateImageCounter() {
-            const counter = document.getElementById('image-count');
-            if (selectedFiles.length > 0) {
-                const remaining = 5 - selectedFiles.length;
-                const text = language === 'en'
-                    ? `${selectedFiles.length} of 5 images selected${remaining > 0 ? ` (${remaining} more available)` : ' (max reached)'}`
-                    : `${selectedFiles.length} de 5 imágenes seleccionadas${remaining > 0 ? ` (${remaining} más disponibles)` : ' (máximo alcanzado)'}`;
-                counter.textContent = text;
-                counter.style.color = selectedFiles.length >= 5 ? '#f44336' : '#1565c0';
-            } else {
-                counter.textContent = '';
-            }
+        function updateImagePreview() {
+            const preview = document.getElementById('image-preview');
+            preview.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'image-preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <div class="remove-btn" onclick="removeImage(${index})">×</div>
+                    `;
+                    preview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
         }
 
         function removeImage(index) {
             selectedFiles.splice(index, 1);
-            const previewContainer = document.getElementById('image-preview');
-            previewContainer.innerHTML = '';
-
-            // Update counter
-            updateImageCounter();
-
-            // Re-render previews
-            selectedFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.style.cssText = 'position: relative;';
-                    imgDiv.innerHTML = `
-                        <img src="${e.target.result}"
-                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #2196f3;">
-                        <div style="position: absolute; top: -5px; right: -5px; background: #f44336; color: white; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold;"
-                             onclick="removeImage(${index})">×</div>
-                    `;
-                    previewContainer.appendChild(imgDiv);
-                };
-                reader.readAsDataURL(file);
-            });
+            updateImagePreview();
         }
-
-        // Smooth scroll to section
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // Scroll down smoothly
-        function scrollDown() {
-            window.scrollBy({
-                top: window.innerHeight * 0.8,
-                behavior: 'smooth'
-            });
-        }
-
-        // Hide scroll indicator when reaching bottom
-        const scrollIndicator = document.getElementById('scrollIndicator');
-
-        window.addEventListener('scroll', function() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-
-            // Hide scroll indicator only when user reaches the bottom
-            const nearBottom = scrollTop + windowHeight >= documentHeight - 100;
-
-            if (nearBottom) {
-                scrollIndicator.classList.add('hidden');
-            } else {
-                scrollIndicator.classList.remove('hidden');
-            }
-        });
-
-        // Auto-select Option 1 when warranty is checked
-        document.getElementById('warranty_checkbox').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('secure_warranty').checked = true;
-            }
-        });
 
         // Form submission
         document.getElementById('requestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // Check if either part_needed OR junkyard parts are provided
-            const partNeeded = document.getElementById('part_needed').value.trim();
-            const hasJunkyardParts = selectedJunkyardParts.length > 0;
-
-            if (!partNeeded && !hasJunkyardParts) {
-                alert(language === 'en'
-                    ? '⚠️ Please either:\n• Fill in the "Part/s Name" field in Option 1, OR\n• Select parts from the junkyard search in Option 2'
-                    : '⚠️ Por favor:\n• Llena el campo "Nombre de la/s Pieza/s" en Opción 1, O\n• Selecciona piezas de la búsqueda del desarmadero en Opción 2');
-                return;
-            }
-
-            // Get selected secure method
-            const secureMethod = document.querySelector('input[name="secure_method"]:checked');
-            if (!secureMethod) {
-                alert(language === 'en' ? 'Please select a way to secure your part.' : 'Por favor selecciona una forma de asegurar tu pieza.');
-                return;
-            }
-
-            // Create FormData for file upload support
             const formData = new FormData();
             formData.append('customer_name', document.getElementById('customer_name').value);
             formData.append('customer_phone', document.getElementById('customer_phone').value);
@@ -1165,14 +676,14 @@
             formData.append('color_doesnt_matter', document.getElementById('color_doesnt_matter').checked);
             formData.append('part_needed', document.getElementById('part_needed').value);
             formData.append('additional_notes', document.getElementById('additional_notes').value);
+
+            const secureMethod = document.querySelector('input[name="secure_method"]:checked');
             formData.append('secure_method', secureMethod.value);
-            formData.append('warranty', document.getElementById('warranty_checkbox').checked);
+            formData.append('warranty', secureMethod.value === 'warranty');
             formData.append('language', language);
+            formData.append('junkyard_parts', '[]');
 
-            // Add junkyard parts data
-            formData.append('junkyard_parts', JSON.stringify(selectedJunkyardParts));
-
-            // Add image files from our tracked array
+            // Add images
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append('part_images[]', selectedFiles[i]);
             }
@@ -1181,21 +692,23 @@
                 const response = await fetch('/submit_request', {
                     method: 'POST',
                     body: formData
-                    // Don't set Content-Type header - browser will set it automatically with boundary for multipart/form-data
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    // Clear selected files for next submission
                     selectedFiles = [];
                     window.location.href = '/thank_you?lang=' + language + '&request_id=' + data.request_id;
                 } else {
-                    alert(language === 'en' ? 'Error submitting request. Please try again.' : 'Error al enviar la solicitud. Por favor, inténtelo de nuevo.');
+                    alert(language === 'en'
+                        ? 'Error submitting request. Please try again.'
+                        : 'Error al enviar la solicitud. Por favor, inténtelo de nuevo.');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert(language === 'en' ? 'Error submitting request. Please try again.' : 'Error al enviar la solicitud. Por favor, inténtelo de nuevo.');
+                alert(language === 'en'
+                    ? 'Error submitting request. Please try again.'
+                    : 'Error al enviar la solicitud. Por favor, inténtelo de nuevo.');
             }
         });
     </script>
