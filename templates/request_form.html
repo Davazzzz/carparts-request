@@ -564,6 +564,18 @@
                         <small style="color: #666; font-size: 12px; display: block; margin-top: 8px;">
                             {% if language == 'en' %}💡 This deposit secures your part and will be deducted from your final payment{% else %}💡 Este depósito asegura tu pieza y será deducido de tu pago final{% endif %}
                         </small>
+
+                        <!-- Deposit Details (Collapsible) -->
+                        <details class="details-toggle" style="margin-top: 15px; background: white;">
+                            <summary>{% if language == 'en' %}💳 How deposits work{% else %}💳 Cómo funcionan los depósitos{% endif %}</summary>
+                            <div class="details-content">
+                                <ul>
+                                    <li>{% if language == 'en' %}<strong>If I don't find the part:</strong> Full deposit refunded{% else %}<strong>Si no encuentro la pieza:</strong> Depósito completo reembolsado{% endif %}</li>
+                                    <li>{% if language == 'en' %}<strong>If I find the part and you agree to buy:</strong> Deposit is deducted from your total{% else %}<strong>Si encuentro la pieza y aceptas comprar:</strong> El depósito se deduce de tu total{% endif %}</li>
+                                    <li>{% if language == 'en' %}<strong>Time sensitive:</strong> You must respond within 10-15 minutes or I leave the part{% else %}<strong>Tiempo sensible:</strong> Debes responder en 10-15 minutos o dejo la pieza{% endif %}</li>
+                                </ul>
+                            </div>
+                        </details>
                     </div>
                 </div>
 
