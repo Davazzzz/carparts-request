@@ -491,6 +491,10 @@
             <div class="section">
                 <div class="section-title">{% if language == 'en' %}Car Part/s Information{% else %}Información de Pieza/s{% endif %}</div>
 
+                <div style="background: #ffe6e6; border-left: 4px solid #e74c3c; padding: 12px 15px; margin-bottom: 15px; border-radius: 4px; font-size: 13px; color: #c0392b;">
+                    ⚠️ <strong>{% if language == 'en' %}Weight Limit:{% else %}Límite de Peso:{% endif %}</strong> {% if language == 'en' %}I don't pull parts over 75 lbs (engines, transmissions, etc.){% else %}No saco piezas de más de 75 lbs (motores, transmisiones, etc.){% endif %}
+                </div>
+
                 <div class="info-box">
                     💡 {% if language == 'en' %}Not sure of exact prices? Visit{% else %}¿No estás seguro de los precios exactos? Visita{% endif %}
                     <a href="https://pyp.com/prices" target="_blank" style="color: #667eea; font-weight: bold;">pyp.com/prices</a>
@@ -529,24 +533,37 @@
                 <div class="form-group">
                     <label>{% if language == 'en' %}How should I handle this?{% else %}¿Cómo debo manejar esto?{% endif %} <span class="required">*</span></label>
                     <div class="radio-group">
-                        <div class="radio-option" onclick="selectRadio('secure_text')">
-                            <label class="radio-label">
-                                <input type="radio" name="secure_method" id="secure_text" value="live_confirmation" required checked>
-                                <div class="radio-text">
-                                    <strong>{% if language == 'en' %}Text me when you find it{% else %}Envíame mensaje cuando la encuentres{% endif %}</strong>
-                                    <small>{% if language == 'en' %}I'll decide then (must respond in 10-15 min){% else %}Decidiré entonces (debo responder en 10-15 min){% endif %}</small>
-                                </div>
-                            </label>
-                        </div>
                         <div class="radio-option" onclick="selectRadio('secure_warranty')">
                             <label class="radio-label">
-                                <input type="radio" name="secure_method" id="secure_warranty" value="warranty">
+                                <input type="radio" name="secure_method" id="secure_warranty" value="warranty" required checked>
                                 <div class="radio-text">
                                     <strong>{% if language == 'en' %}Buy with warranty (recommended){% else %}Comprar con garantía (recomendado){% endif %}</strong>
                                     <small>{% if language == 'en' %}+30%, respond when ready, 90-day protection{% else %}+30%, responde cuando quieras, protección de 90 días{% endif %}</small>
                                 </div>
                             </label>
                         </div>
+                        <div class="radio-option" onclick="selectRadio('secure_text')">
+                            <label class="radio-label">
+                                <input type="radio" name="secure_method" id="secure_text" value="live_confirmation">
+                                <div class="radio-text">
+                                    <strong>{% if language == 'en' %}Text me when you find it (requires deposit){% else %}Envíame mensaje cuando la encuentres (requiere depósito){% endif %}</strong>
+                                    <small>{% if language == 'en' %}Must respond in 10-15 min or I leave the part{% else %}Debes responder en 10-15 min o dejo la pieza{% endif %}</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Deposit dropdown - only shows when "Text me when you find it" is selected -->
+                    <div id="deposit-section" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 2px solid #e0e0e0;">
+                        <label style="margin-bottom: 10px;">{% if language == 'en' %}Deposit Amount (deducted from final total):{% else %}Monto del Depósito (deducido del total final):{% endif %} <span class="required">*</span></label>
+                        <select id="deposit_amount" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                            <option value="">{% if language == 'en' %}-- Select Deposit Amount --{% else %}-- Seleccionar Monto del Depósito --{% endif %}</option>
+                            <option value="20">{% if language == 'en' %}$20 - Small/Interior Parts{% else %}$20 - Piezas Pequeñas/Interiores{% endif %}</option>
+                            <option value="50">{% if language == 'en' %}$50 - Large/Exterior Parts{% else %}$50 - Piezas Grandes/Exteriores{% endif %}</option>
+                        </select>
+                        <small style="color: #666; font-size: 12px; display: block; margin-top: 8px;">
+                            {% if language == 'en' %}💡 This deposit secures your part and will be deducted from your final payment{% else %}💡 Este depósito asegura tu pieza y será deducido de tu pago final{% endif %}
+                        </small>
                     </div>
                 </div>
 
@@ -607,6 +624,17 @@
             const radio = document.getElementById(id);
             radio.checked = true;
             radio.closest('.radio-option').classList.add('checked');
+
+            // Show/hide deposit section based on selection
+            const depositSection = document.getElementById('deposit-section');
+            if (id === 'secure_text') {
+                depositSection.style.display = 'block';
+                document.getElementById('deposit_amount').required = true;
+            } else {
+                depositSection.style.display = 'none';
+                document.getElementById('deposit_amount').required = false;
+                document.getElementById('deposit_amount').value = '';
+            }
         }
 
         // Initialize checked radio
@@ -614,6 +642,8 @@
             const checkedRadio = document.querySelector('input[name="secure_method"]:checked');
             if (checkedRadio) {
                 checkedRadio.closest('.radio-option').classList.add('checked');
+                // Hide deposit section initially since warranty is default
+                document.getElementById('deposit-section').style.display = 'none';
             }
         });
 
@@ -680,6 +710,11 @@
             const secureMethod = document.querySelector('input[name="secure_method"]:checked');
             formData.append('secure_method', secureMethod.value);
             formData.append('warranty', secureMethod.value === 'warranty');
+
+            // Add deposit amount if "Text me when you find it" is selected
+            const depositAmount = document.getElementById('deposit_amount').value;
+            formData.append('deposit_amount', depositAmount || '0');
+
             formData.append('language', language);
             formData.append('junkyard_parts', '[]');
 

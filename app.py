@@ -53,6 +53,7 @@ def submit_request():
                 'additional_notes': request.form.get('additional_notes'),
                 'secure_method': request.form.get('secure_method'),
                 'warranty': request.form.get('warranty') == 'true',
+                'deposit_amount': request.form.get('deposit_amount', '0'),
                 'language': request.form.get('language'),
                 'junkyard_parts': request.form.get('junkyard_parts'),  # JSON string
                 'part_images': []
