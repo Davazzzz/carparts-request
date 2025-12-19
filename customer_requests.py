@@ -24,8 +24,10 @@ class CustomerRequests:
 
     def add_request(self, request_data):
         """Add a new customer request"""
+        # Get the maximum ID to avoid collisions when requests are deleted
+        max_id = max([r.get('id', 0) for r in self.requests], default=0)
         request = {
-            'id': len(self.requests) + 1,
+            'id': max_id + 1,
             'date': datetime.now().strftime('%Y-%m-%d'),
             'time': datetime.now().strftime('%I:%M %p'),
             'customer_name': request_data.get('customer_name', ''),
@@ -51,7 +53,7 @@ class CustomerRequests:
             'status': 'new',
             'quote_amount': 0,
             'quote_message': '',
-            'deposit_amount': 0,
+            'deposit_amount': request_data.get('deposit_amount', '0'),
             'deposit_required': True,
             'deposit_paid': False,
             'photos_sent': False,
