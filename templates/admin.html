@@ -95,6 +95,25 @@
             color: white;
         }
 
+        .delete-all-btn {
+            padding: 12px 24px;
+            border: 2px solid #e74c3c;
+            background: white;
+            color: #e74c3c;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-left: auto;
+        }
+
+        .delete-all-btn:hover {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
         .requests-container {
             display: grid;
             gap: 20px;
@@ -358,6 +377,7 @@
             <button class="filter-btn" onclick="filterRequests('new')">New</button>
             <button class="filter-btn" onclick="filterRequests('quoted')">Quoted</button>
             <button class="filter-btn" onclick="filterRequests('completed')">Completed</button>
+            <button class="delete-all-btn" onclick="deleteAllRequests()">🗑️ Delete All</button>
         </div>
     </div>
 
@@ -1235,6 +1255,40 @@ ${costs.hasWarranty ? '✅ Incluye garantía de 90 días desde el día de compra
             } catch (e) {
                 console.error('Error parsing junkyard parts:', e);
                 alert('Error loading junkyard parts data.');
+            }
+        }
+
+        // Delete all requests
+        async function deleteAllRequests() {
+            const confirmation = confirm('⚠️ WARNING: This will permanently delete ALL customer requests!\n\nAre you absolutely sure?');
+
+            if (!confirmation) {
+                return;
+            }
+
+            // Double confirmation
+            const doubleCheck = confirm('🚨 FINAL WARNING: This cannot be undone!\n\nDelete all requests?');
+
+            if (!doubleCheck) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/delete_all', {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(`✅ Successfully deleted ${data.deleted_count} request(s)`);
+                    loadRequests(); // Reload the page data
+                } else {
+                    alert('❌ Error: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Failed to delete requests');
             }
         }
     </script>

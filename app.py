@@ -236,6 +236,29 @@ def delete_request(request_id):
         }), 500
 
 
+@app.route('/admin/delete_all', methods=['DELETE'])
+def delete_all_requests():
+    """Delete all requests"""
+    try:
+        all_requests = requests_db.get_all_requests()
+        deleted_count = len(all_requests)
+
+        # Delete each request
+        for req in all_requests:
+            requests_db.delete_request(req['id'])
+
+        return jsonify({
+            'success': True,
+            'message': 'All requests deleted',
+            'deleted_count': deleted_count
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
 if __name__ == '__main__':
     import os
 
